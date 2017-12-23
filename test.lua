@@ -39,40 +39,45 @@ local function getPPURegisters()
     PPUTable.PPUControlReg1 = "PPUCR1    "..toBits(tonumber(memory.readbyte(0x2000)))
     PPUTable.PPUControlReg2 = "PPUCR2    "..toBits(tonumber(memory.readbyte(0x2001)))
     PPUTable.PPUStatusReg = "PPUStR    "..toBits(tonumber(memory.readbyte(0x2002)))
-    PPUTable.SPRRAMAdReg = "SPRRAMAd  "..toBits(tonumber(memory.readbyte(0x2003)))
-    --PPUTable.SPRRAMIOReg = "SPRRAMIO  "..toBits(tonumber(memory.readbyte(0x2004)))
+    PPUTable.SPRRAMAdReg = "SPRRAMAd  "..toBits(tonumber(memory.readbyte(0x2003)))..string.format(" 0x%x",memory.readbyte(0x2003))
     PPUTable.VRAMAddReg1 = "VRAMAdR1  "..toBits(tonumber(memory.readbyte(0x2005)))
     PPUTable.VRAMAddReg2 = "VRAMAdR2  "..toBits(tonumber(memory.readbyte(0x2006)))
+
     --PPUTable.VRAMIOReg = "VRAMIOR   "..toBits(tonumber(memory.readbyte(0x2007)))
+    --PPUTable.SPRRAMIOReg = "SPRRAMIO  "..toBits(tonumber(memory.readbyte(0x2004)))
 
     return PPUTable
 
 end
 
-
-
 local function cursesPrintPPU()
     -- Taken up 5,5 to 12,5 space
 	local stdscr = curses.stdscr()
 	local PPURegs = getPPURegisters()
-	stdscr:mvaddstr(5,5,PPURegs.PPUControlReg1)
-	stdscr:mvaddstr(6,5,PPURegs.PPUControlReg2)
-	stdscr:mvaddstr(7,5,PPURegs.PPUStatusReg)
-	stdscr:mvaddstr(8,5,PPURegs.SPRRAMAdReg)
+    local y=1
+    local x=3
+	stdscr:mvaddstr(y,x,PPURegs.PPUControlReg1)
+	stdscr:mvaddstr(y+1,x,PPURegs.PPUControlReg2)
+	stdscr:mvaddstr(y+2,x,PPURegs.PPUStatusReg)
+	stdscr:mvaddstr(y+3,x,PPURegs.SPRRAMAdReg)
 	--stdscr:mvaddstr(9,5,PPURegs.SPRRAMIOReg)
-	stdscr:mvaddstr(10,5,PPURegs.VRAMAddReg1)
-	stdscr:mvaddstr(11,5,PPURegs.VRAMAddReg2)
+	stdscr:mvaddstr(y+4,x,PPURegs.VRAMAddReg1)
+	stdscr:mvaddstr(y+5,x,PPURegs.VRAMAddReg2)
 	--stdscr:mvaddstr(12,5,PPURegs.VRAMIOReg)
     stdscr:refresh()
 	stdscr:clear()
 
 end
 
+local function cursesPrintOAM()
+
+end
+
 local function main()
 	cursesInit()
 	while true do
-        cursesPrintPPU()
-		gui.text(30,30,"Life is a biatch")
+        cursesPrintPPU()\
+        gui.text(30,30,"nes")
 		emu.frameadvance()
 	end
 	return(0)
