@@ -40,7 +40,7 @@ local function getPPURegisters()
     PPUTable.PPUControlReg2 = "PPUCR2    "..toBits(tonumber(memory.readbyte(0x2001)))
     PPUTable.PPUStatusReg = "PPUStR    "..toBits(tonumber(memory.readbyte(0x2002)))
     PPUTable.SPRRAMAdReg = "SPRRAMAd  "..toBits(tonumber(memory.readbyte(0x2003)))..string.format(" 0x%x",memory.readbyte(0x2003))
-    PPUTable.VRAMAddReg1 = "VRAMAdR1  "..toBits(tonumber(memory.readbyte(0x2005)))
+    PPUTable.VRAMAddReg1 = "VRAMAdR1  "..toBits(tonumber(memory.readbytes(0x2005)))
     PPUTable.VRAMAddReg2 = "VRAMAdR2  "..toBits(tonumber(memory.readbyte(0x2006)))
 
     --PPUTable.VRAMIOReg = "VRAMIOR   "..toBits(tonumber(memory.readbyte(0x2007)))
@@ -76,7 +76,7 @@ end
 local function main()
 	cursesInit()
 	while true do
-        cursesPrintPPU()\
+        cursesPrintPPU()
         gui.text(30,30,"nes")
 		emu.frameadvance()
 	end
